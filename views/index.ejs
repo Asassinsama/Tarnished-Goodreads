@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capstone Project - Item Management</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TARNISHED GOODREADS</h1>
+        </header>
+        <h3>Just a summary of some books i've read. This page will constantly update as i read more. So bookmark it if you want to check back in a few months. </h3>
+        <p class="sort"> Sorted with my top recommendations up top. Sort by 
+            <a href="/?sort=name">Name,</a> 
+            <a href="/?sort=date">Date,</a> 
+            <a href="/?sort=recommendation">Recommendation.</a>
+            </p>
+        <!-- Add New Item -->
+        <section class="form-section">
+            <h2>Add New Item</h2>
+            <form action="/items" method="POST">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Item Name" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="description" placeholder="Description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="date" name="date">
+                </div>
+                <div class="form-group">
+                    <textarea name="recommendation" placeholder="Recommendation" rows="2"></textarea>
+                </div>
+                <button type="submit">Add Item</button>
+            </form>
+        </section>
+
+        
+
+        <!-- Display Items -->
+        <section class="items-section">
+            <h2></h2>
+            <ul class="item-list">
+                <% items.forEach(item => { %>
+                    <li class="item">
+                        <div class="item-header">
+                            <div>
+                                <h3 class="item-name"><%= item.name %></h3>
+                                <% if (item.image && item.image.trim() !== '') { %>
+                                <div class="item-image">
+                                    <img src="<%= item.image %>" alt="<%= item.name %>" class="item-img">
+                                </div>
+                                <% } %>
+                                <div class="flexx">
+                                    <% if (item.recommendation) { %>
+                                <div class="item-recommendation">RECOMMENDATION: <%= item.recommendation %>/10</div>
+                                <% } %>
+                                    <p class="item-date ">DATE READ: <%= item.date %></p>
+                                <p class="item-description"><%= item.description %></p>
+                        
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="item-actions">
+                            <form action="/items/delete/<%= item.id %>" method="POST" style="display: inline;">
+                                <button type="submit" class="delete-btn">Delete</button>
+                            </form>
+                            
+                            <!-- Edit Form (initially hidden) -->
+                            <button type="button" onclick="toggleEditForm(<%= item.id %>)" class="edit-btn">Edit</button>
+                        </div>
+                        
+                        <!-- Edit Form -->
+                        <form action="/items/edit/<%= item.id %>" method="POST" id="edit-form-<%= item.id %>" style="display: none; margin-top: 15px; padding: 15px; background-color: #f0f7ff; border-radius: 5px;">
+                            <input type="hidden" name="_method" value="PUT">
+                            <div class="form-group">
+                                <input type="text" name="name" value="<%= item.name %>" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="description" rows="3"><%= item.description %></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="date" name="date" value="<%= item.date %>">
+                            </div>
+                            <div class="form-group">
+                                <textarea name="recommendation" rows="2"><%= item.recommendation %></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="update-btn">Update Item</button>
+                                <button type="button" onclick="toggleEditForm(<%= item.id %>)" class="cancel-btn">Cancel</button>
+                            </div>
+                        </form>
+                    </li>
+                <% }); %>
+            </ul>
+        </section>
+    </div>
+
+
+    <script>
+        function toggleEditForm(itemId) {
+            const form = document.getElementById(`edit-form-${itemId}`);
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
