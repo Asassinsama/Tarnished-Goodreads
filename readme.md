@@ -1,3 +1,2 @@
-nmp i ejs, express, method-override & pg
-
-nodemon index.js
+Just a summary of books i've read
+i used ejs,express, method-override and pg to design this website
