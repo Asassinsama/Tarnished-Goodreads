@@ -2,6 +2,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import methodOverride from 'method-override'
 import pg from "pg";
+//import { PrismaClient } from '@prisma/client/edge'
+//import { withAccelerate } from '@prisma/extension-accelerate'
 
 const app = express();
 const port = 3000;
@@ -21,6 +23,10 @@ app.use(methodOverride('_method'));
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
+
+
+
+//const prisma = new PrismaClient().$extends(withAccelerate())
 
 
 //Fetch all items (Read)
