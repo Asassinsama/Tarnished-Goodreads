@@ -1,12 +1,29 @@
 import express from "express";
 import bodyParser from "body-parser";
-import methodOverride from 'method-override'
+import methodOverride from 'method-override';
 import pg from "pg";
-//import { PrismaClient } from '@prisma/client/edge'
-//import { withAccelerate } from '@prisma/extension-accelerate'
+import { createClient } from '@supabase/supabase-js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const supabaseUrl = 'https://frjstcsfxfzfzfqyoiqj.supabase.co'
+const supabaseKey = process.env.SUPABASE_KEY
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const app = express();
 const port = 3000;
+
+/*const db = new pg.Client({
+  connectionString: process.env.DATABASE_URL, // Supabase URI
+  ssl: { rejectUnauthorized: false } // Required for Supabase
+});*/
+
 
 const db = new pg.Client({
   user: "postgres",
@@ -17,16 +34,17 @@ const db = new pg.Client({
 });
 db.connect();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 app.use(methodOverride('_method'));
-
-// Set EJS as the view engine
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 
-
-//const prisma = new PrismaClient().$extends(withAccelerate())
 
 
 //Fetch all items (Read)

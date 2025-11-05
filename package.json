@@ -7,19 +7,20 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "dependencies": {
-    "@prisma/client": "^6.18.0",
-    "@prisma/extension-accelerate": "^2.0.2",
+    "@supabase/supabase-js": "^2.78.0",
     "cors": "^2.8.5",
     "csv-parse": "^6.1.0",
+    "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "git": "^0.1.5",
     "method-override": "^3.0.0",
     "node-fetch": "^3.3.2",
     "pg": "^8.16.3",
-    "prisma": "^6.18.0"
+    "postgres": "^3.4.7"
   }
 }
